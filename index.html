@@ -1,6 +1,105 @@
+<!DOCTYPE html>
 <html>
-	<body>
-		<h1>Index</h1>
-		<a href="./page1.html">Vai para page1</a>
-	</body>
+<script src="jquery.js"></script>
+
+<body>
+
+    Nome: <input type="text" id="nome" /> <br> Valor: <input type="number" id="valor" /> <br>
+    <input type="button" name="input1" value="Adicionar Livro" onclick="adicionarLivro(nome, valor)">
+
+
+    <div id="lista">
+        <ul id="ulList"></ul>
+    </div>
+
+    <button id="remove_ul">Remover lista</button>
+    </br>
+
+    <br> Carregar livro por id: <input name="input1" type="number" id="idLivro" />
+    <input type="button" value="Carregar livro por ID" onclick="carregarLivroPorId(idLivro.value)" />
+
+    <div id="lista1">
+        <ul id="ulList1"></ul>
+    </div>
+
+    <script>
+        /*  var objetoLiteral = {  "name": "Rafael","age": 12}
+                                                                                                                                                                                                                    console.log("Objeto impresso ");                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                     console.log(objetoLiteral);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+                                                                                                                                                                                                                     console.log("Objeto impresso: " + JSON.stringify(objetoLiteral));*/
+
+        //CarregarLivros
+
+        var carregarLivros = function() {
+
+            var success = function(data) {
+                $("#lista").empty();
+                $("#lista").append("<ul></ul>");
+                for (i = 0; i < data.length; i++) {
+
+                    $("ul").append('<li> <p>Id: ' + data[i].id + ', nome: ' + data[i].nome + ', value: ' + data[i].value + '</li>');
+                }
+
+            };
+
+            $.get("http://localhost:8080/book", success);
+        }
+
+        //AdicionarLivros
+
+        var adicionarLivro = function(nome, valor) {
+            var success = function(data) {
+                console.log("data from POST ", data);
+                carregarLivros();
+            }
+            var data = {
+                nome: nome.value,
+                value: valor.value
+            }
+            $.post("http://localhost:8080/book", data, success);
+        }
+
+        carregarLivros();
+
+        //IdCarregarHTML
+
+        var carregarLivrosPorId1 = function() {
+
+            var success = function(data) {
+                $("#lista1").empty();
+                $("#lista1").append("<ul></ul>");
+                for (i = 0; i < data.length; i++) {
+
+                    $("ul").append('<li> <p>Id: ' + data[i].id + ', nome: ' + data[i].nome + ', value: ' + data[i].value + '</li>');
+                }
+
+            };
+
+            $.get("http://localhost:8080/book", success);
+        }
+
+        //IdConsoleLog
+
+        var carregarLivroPorId = function(id) {
+            //var id = document.getElementById("idLivro").value;
+            var success = function(data) {
+                console.log("livro que pedi", data);
+
+            }
+            $.get("http://localhost:8080/book/" + id, success);
+        }
+
+        carregarLivrosPorId1();
+
+        //Botão Remover
+
+        $(document).ready(function() {
+            $("#remove_ul").click(function() {
+                $("ul").remove();
+            });
+        });
+    </script>
+
+</body>
+
 </html>
