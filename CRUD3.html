@@ -1,0 +1,100 @@
+<html>
+
+<body>
+	<h3 align="center">Descrição </h3>
+	<p align="center">Toda vez que adicionar ou remover uma pessoa tem que refletir na lista impressa, seguindo as
+		regras de validação</p>
+
+	<h3 align="center">Regras de validação: </h3>
+	<p> 1 - Caso a idade seja <b>MENOR</b> do que 18 anos apesentar mensagem no SPAN de <b style="color:red">ERRO</b>
+		com o seguite texto: '{NomeDaPessoa} não pode ser adicionada' e a cor do texto para <b
+			style="color:red">VERMELHO</b>. </p>
+	<p> 2 - Caso a idade seja <b>MAIOR</b> do que 18 anos apesentar mensagem no SPAN de <b>SUCESSO</b> com o seguite
+		texto: 'Pessoa adicionada com sucesso' e a cor do texto para preto. </p>
+	<p> 3 - Caso a pessoa não tenha mais do que 18 anos, não é para ser impressa e nem adicionada no array. </p>
+	<h3 align="center">Dicas</h3>
+	<p> 1 - Para mudar a cor do texto você precisa pegar o element ex: document.getElementById("id").style.color =
+		"black"; ou "red" se for mensagem de erro </p>
+	<p> 2 - Para manipular o checkbox é simples, Ativar: 'document.getElementById("id").checked = true'; Desativar:
+		'document.getElementById("id").checked = false'</p>
+
+	<hr>
+	</br>
+	</br>
+	</br>
+	<!-- ADICIONAR/ALTERAR PESSOAS:-->
+	Nome: <input type="text" id="nomePessoaId" /> </br>
+	Idade: <input type="text" id="idadePessoaId" /></br>
+	Ativa: <input type="checkbox" id="pessoaAtivaId" checked="true" /></br>
+	<input type="button" value="Adicionar Pessoa" onclick="adicionarPessoa(nomePessoaId.value, idadePessoaId.value)">
+	</br>
+
+	</br>
+
+	<!-- REMOVER PESSOAS:-->
+	<input type="button" value="Remover Pessoa" onclick="removerPessoa(pessoaSelecionadaIdSelect.value)"> </br>
+	<br>
+	<!-- IMPRIMIR LISTA PESSOAS:-->
+	<table border="1">
+		<tr>
+			<th width="100px" align="center">Nome</th>
+			<th width="100px" align="center">Idade</th>
+			<th width="100px" align="center">Ativo</th>
+			<th width="100px" align="center">Remove</th>
+		</tr>
+		<tr id="listaPessoas">
+			<td align="center">Rafael</td>
+			<td align="center">33</td>
+			<td align="center"><input type="checkbox" checked="true"></td>
+			<td align="center"><input type="button" value="Remover"> </td>
+		</tr>
+	</table>
+	<br>
+	<!-- SPAN:-->
+	<span id="mensagemErro">Não pode ser adicionada</span>
+	</br>
+	<span id="mensagemSucesso">Adicionado com sucesso</span>
+
+	<!-- Pessoas inativas -->
+	<h3>Lista de pessoas inativas</h3>
+	<ul id="elementoUlPessoasInativas">
+
+	</ul>
+	<script>
+		//ARRAY:
+		var pessoasArray = [
+			{ nome: "rafael", idade: 34, ativo: true }
+		];
+
+		var adicionarPessoa = function () {
+			var nomePessoaId = document.getElementById("nomePessoaId").value;
+			var idadePessoaId = document.getElementById("idadePessoaId").value;
+
+			if (idadePessoaId < 18) {
+				document.getElementById("mensagemErro").style.color = "red";
+			}
+			else {
+				document.getElementById("mensagemSucesso").style.color = "blue";
+
+				var pessoaSalva = { nome: nomePessoaId, idade: idadePessoaId };
+				pessoasArray.push(pessoaSalva);
+
+				carregarLista();
+			}
+		}
+
+		//FUNÇÃO CARREGAR A LISTA:
+		var carregarLista = function () {
+			var trElement = document.getElementById("listaPessoas");
+			for (i = 0; i < pessoasArray.length; i++) {
+				var tdElement = document.createElement("td")
+				var textNode = document.createTextNode(' nome: ' + pessoasArray[i].nome + ', idade: ' + pessoasArray[i].idade);
+				tdElement.appendChild(textNode);
+				trElement.appendChild(tdElement);
+			}
+		}
+
+	</script>
+</body>
+
+</html>

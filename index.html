@@ -5,99 +5,51 @@
 <body>
 
     Nome: <input type="text" id="nome" /> <br> Valor: <input type="number" id="valor" /> <br>
-    <input type="button" name="input1" value="Adicionar Livro" onclick="adicionarLivro(nome, valor)">
-
+    <input type="button" name="input1" value="Adicionar Livro" onclick="adicionarLivro()">
 
     <div id="lista">
         <ul id="ulList"></ul>
     </div>
-
-    <button id="remove_ul">Remover lista</button>
     </br>
 
     <br> Carregar livro por id: <input name="input1" type="number" id="idLivro" />
-    <input type="button" value="Carregar livro por ID" onclick="carregarLivroPorId(idLivro.value)" />
+    <input type="button" value="Carregar livro por ID" onclick="carregarLivroPorId()" />
+    <button id="remove_ul">Remover Item da Lista</button>
 
-    <div id="lista1">
-        <ul id="ulList1"></ul>
+    <div id="livroEscolhidoDiv">
+        Livro escolhido: <p id="livroEscolhido"></p>
     </div>
 
     <script>
-        /*  var objetoLiteral = {  "name": "Rafael","age": 12}
-                                                                                                                                                                                                                    console.log("Objeto impresso ");                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
-                                                                                                                                                                                                                     console.log(objetoLiteral);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
-                                                                                                                                                                                                                     console.log("Objeto impresso: " + JSON.stringify(objetoLiteral));*/
+        var listaLivros = [
+            { "id": 1, "nome": "Livro1", "valor": 11.22 },
+            { "id": 2, "nome": "Livro2", "valor": 54.68 }
+        ]
 
         //CarregarLivros
 
-        var carregarLivros = function() {
-
-            var success = function(data) {
-                $("#lista").empty();
-                $("#lista").append("<ul></ul>");
-                for (i = 0; i < data.length; i++) {
-
-                    $("ul").append('<li> <p>Id: ' + data[i].id + ', nome: ' + data[i].nome + ', value: ' + data[i].value + '</li>');
-                }
-
-            };
-
-            $.get("http://localhost:8080/book", success);
+        var carregarLivros = function () {
+            var ulElement = document.getElementById("ulList");
+            for (i = 0; i < listaLivros.length; i++) {
+                var liElement = document.createElement("li")
+                var pElement = document.createElement("p");
+                var textNode = document.createTextNode('Id: ' + listaLivros[i].id + ', nome: ' + listaLivros[i].nome + ', value: ' + listaLivros[i].valor);
+                pElement.appendChild(textNode);
+                liElement.appendChild(pElement);
+                ulElement.appendChild(liElement);
+            }
         }
 
-        //AdicionarLivros
+        var adicionarLivro = function () {
 
-        var adicionarLivro = function(nome, valor) {
-            var success = function(data) {
-                console.log("data from POST ", data);
-                carregarLivros();
-            }
-            var data = {
-                nome: nome.value,
-                value: valor.value
-            }
-            $.post("http://localhost:8080/book", data, success);
         }
-
         carregarLivros();
 
-        //IdCarregarHTML
-
-        var carregarLivrosPorId1 = function() {
-
-            var success = function(data) {
-                $("#lista1").empty();
-                $("#lista1").append("<ul></ul>");
-                for (i = 0; i < data.length; i++) {
-
-                    $("ul").append('<li> <p>Id: ' + data[i].id + ', nome: ' + data[i].nome + ', value: ' + data[i].value + '</li>');
-                }
-
-            };
-
-            $.get("http://localhost:8080/book", success);
-        }
-
-        //IdConsoleLog
-
-        var carregarLivroPorId = function(id) {
+        var carregarLivroPorId = function () {
+            console.log("sdrdrfd")
             //var id = document.getElementById("idLivro").value;
-            var success = function(data) {
-                console.log("livro que pedi", data);
-
-            }
-            $.get("http://localhost:8080/book/" + id, success);
         }
 
-        carregarLivrosPorId1();
-
-        //Botão Remover
-
-        $(document).ready(function() {
-            $("#remove_ul").click(function() {
-                $("ul").remove();
-            });
-        });
     </script>
 
 </body>

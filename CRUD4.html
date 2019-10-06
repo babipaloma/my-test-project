@@ -1,0 +1,56 @@
+<html>
+
+<body>
+	<h3 align="center">Descrição </h3>
+	<p align="center">Toda vez que adicionar ou remover uma pessoa tem que refletir na lista impressa, seguindo as regras de validação</p>
+	
+	<h3 align="center">Regras de validação: </h3>
+	<p> 1 - Caso a idade seja <b>MENOR</b> do que 18 anos apesentar mensagem no SPAN de <b style="color:red">ERRO</b> com o seguite texto: '{NomeDaPessoa} não pode ser adicionada' e a cor do texto para <b style="color:red">VERMELHO</b>. </p>
+	<p> 2 - Caso a idade seja <b>MAIOR</b> do que 18 anos apesentar mensagem no SPAN de <b>SUCESSO</b> com o seguite texto: 'Pessoa adicionada com sucesso' e a cor do texto para preto. </p>
+	<p> 3 - Caso a pessoa não tenha mais do que 18 anos, não é para ser impressa e nem adicionada no array. </p>
+	<h3 align="center">Dicas</h3>
+	<p> 1 - Para mudar a cor do texto você precisa pegar o element ex: document.getElementById("id").style.color =
+		"black"; ou "red" se for mensagem de erro </p>
+	<p> 2 - Para manipular o checkbox é simples, Ativar:  'document.getElementById("id").checked = true'; Desativar: 'document.getElementById("id").checked = false'</p>
+	
+	<hr>
+	</br>
+	</br>
+	</br>
+	<!-- ADICIONAR/ALTERAR PESSOAS:-->
+	Nome: <input type="text" id="nomePessoaId" /> </br>
+	Idade: <input type="text" id="idadePessoaId" /></br>
+	Ativa: <input type="checkbox" id="pessoaAtivaId" checked="true" /></br>
+	<input type="button" value="Adicionar Pessoa" onclick="adicionarPessoa(nomePessoaId.value, idadePessoaId.value)">
+	</br>
+
+	</br>
+	<!-- SELECT REMOVER PESSOAS:-->
+	Radiobox aquixx </br>
+	<select id="pessoaSelecionadaIdSelect">
+		<option value="1">Rafael</option>
+	</select>
+	<!-- REMOVER PESSOAS:-->
+	<input type="button" value="Remover Pessoa" onclick="removerPessoa(pessoaSelecionadaIdSelect.value)"> </br>
+
+	<!-- IMPRIMIR LISTA PESSOAS:-->
+	<p> Imprimir todas as pessoas que estão ATIVAS aqui nos LI ´s</p>
+	<ul id="listaPessoas">
+
+	</ul>
+
+	<!-- SPAM:-->
+	<span id="mensagemRespostaId" style="color:red">Mensagem de resposta aqui</span>
+
+	<script>
+		//ARRAY:
+		var pessoasArray = [
+			{id: 1, nome: "rafael", idade: 34, ativo: true}
+		];
+
+		
+
+	</script>
+</body>
+
+</html>

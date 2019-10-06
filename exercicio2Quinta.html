@@ -1,0 +1,18 @@
+<html>
+
+<body>
+    <p>Descrição: Quero que você copie o valor capturado do ELEMENTO e envie para a DIV </p>
+    <p id="campo1"> Valor para capturar</p>
+    <div id="campoQueRecebeValor"></div>
+    <script>
+
+        var para = document.createElement("p");
+        var node = document.createTextNode("Valor para capturar");
+        para.appendChild(node);
+        var element = document.getElementById("campoQueRecebeValor");
+        element.appendChild(para);
+
+    </script>
+</body>
+
+</html>

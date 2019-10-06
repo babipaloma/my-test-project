@@ -1,0 +1,34 @@
+<html>
+
+<body>
+    <p>Descrição: quero que você pegue o valor em p e percorra a lista inteira e quando achar o objeto que tem o index
+        especifico imprima ele todo na DIV </p>
+    <p id="indexSelecionado">2</p>
+    <div id="campoQueRecebeValor"></div>
+
+
+    <script>
+        var listaDeObjetosLiterais = [
+            { index: 0, valor: 321 },
+            { index: 1, valor: 444 },
+            { index: 2, valor: 532 }
+        ];
+        var objetoLiteralSelecionado = document.getElementById("indexSelecionado").textContent;
+
+        var valorCapturado = document.getElementById("campoQueRecebeValor");
+        for (var i = 2; i < listaDeObjetosLiterais.length; i++) {
+
+            var create = document.createElement("div");
+            var textNode = document.createTextNode('Id: ' + listaDeObjetosLiterais[i].index + ', valor: ' + listaDeObjetosLiterais[i].valor);
+            create.appendChild(textNode);
+            var receber = document.getElementById("campoQueRecebeValor");
+            receber.appendChild(create);
+
+            console.log("ObjetoLiteral", JSON.stringify(listaDeObjetosLiterais[i]));
+            alert("O index selecionado foi:" + objetoLiteralSelecionado);
+        }
+
+    </script>
+</body>
+
+</html>

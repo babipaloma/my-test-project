@@ -1,0 +1,42 @@
+<html>
+
+<body>
+    <p>Descrição: quero que você atualize esse item na lista e veja no console log o quarto item ser impresso </p>
+    <ul>
+        <li>
+            <p>Index: <span id="index">1</span>, valor: <span id="valor">843</span></p>
+        </li>
+    </ul>
+
+    <script>
+        var objetosLiteraisArray = [
+            { index: 0, valor: 321 },
+            { index: 1, valor: 444 },
+            { index: 2, valor: 532 },
+        ];
+
+        var indexSalvoValue = document.getElementById("index").textContent;
+        var valorSalvo = document.getElementById("valor").textContent;
+        var objetoLiteral = { index: indexSalvoValue, valor: valorSalvo };
+        //objetoLiteral.index = indexSalvoValue;
+
+        //codigo aqui
+
+        for (var i = 0; i < objetosLiteraisArray.length; i++) {
+
+            // console.log("objetos literais", objetosLiteraisArray[i]);
+
+            if (objetosLiteraisArray[i].index == indexSalvoValue) {
+
+                objetosLiteraisArray[i].valor = valorSalvo;
+
+            }
+
+            console.log("ObjetoLiteral", JSON.stringify(objetosLiteraisArray[i]));
+        }
+
+
+    </script>
+</body>
+
+</html>

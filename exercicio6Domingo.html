@@ -1,0 +1,37 @@
+<html>
+
+<body>
+    <p>Descrição: quero que você remova esse item na lista e veja no console log o quarto item ser impresso </p>
+    <ul>
+        <li>
+            <p>Index: <span id="index">2</span>, valor: <span id="valor">843</span></p>
+        </li>
+    </ul>
+
+    <script>
+        var objetosLiteraisArray = [
+            { index: 0, valor: 321 },
+            { index: 1, valor: 444 },
+            { index: 2, valor: 532 },
+        ];
+
+        var indexSalvoValue = document.getElementById("index").textContent;
+        var valorSalvo = document.getElementById("valor").textContent;
+        var objetoLiteral = { index: indexSalvoValue, valor: valorSalvo };
+        //objetoLiteral.index = indexSalvoValue;
+
+        var removerIndex = document.getElementById("index");
+
+        objetosLiteraisArray.splice(removerIndex, 1);
+        for (var i = 0; i < objetosLiteraisArray.length; i++) {
+            console.log("ObjetoLiteral", JSON.stringify(objetosLiteraisArray[i]));
+        }
+
+        var nomeDaFuncao = function (input) {
+            console.log("O input foi " + input);
+        }
+
+    </script>
+</body>
+
+</html>
