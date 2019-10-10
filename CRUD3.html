@@ -1,4 +1,12 @@
-<html>
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>CRUD3</title>
+</head>
 
 <body>
 	<h3 align="center">Descrição </h3>
@@ -23,10 +31,9 @@
 	</br>
 	</br>
 	<!-- ADICIONAR/ALTERAR PESSOAS:-->
-	Nome: <input type="text" id="nomePessoaId" /> </br>
-	Idade: <input type="text" id="idadePessoaId" /></br>
-	Ativa: <input type="checkbox" id="pessoaAtivaId" checked="true"
-		onclick="myFunction(nomePessoaId.value, idadePessoaId.value)" /></br>
+	Nome: <input type="text" id="nomePessoaId" value="aaaa" /> </br>
+	Idade: <input type="text" id="idadePessoaId" value="18" /></br>
+	Ativa: <input type="checkbox" id="pessoaAtivaId" checked="true" /></br>
 	<input type="button" value="Adicionar Pessoa" onclick="adicionarPessoa(nomePessoaId.value, idadePessoaId.value)">
 	</br>
 
@@ -34,18 +41,21 @@
 
 	<!-- IMPRIMIR LISTA PESSOAS:-->
 	<table border="1" id="tabelaPessoas">
-		<tr>
-			<th width="100px" align="center">Nome</th>
-			<th width="100px" align="center">Idade</th>
-			<th width="100px" align="center">Ativo</th>
-			<th width="100px" align="center">Remove</th>
-		</tr>
-		<tr>
-			<td>Rafael</td>
-			<td>33</td>
-			<td><input type="checkbox" checked="true"></td>
-			<td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
-		</tr>
+		<tbody>
+			<tr>
+				<th width="100px" align="center">Nome</th>
+				<th width="100px" align="center">Idade</th>
+				<th width="100px" align="center">Ativo</th>
+				<th width="100px" align="center">Remove</th>
+			</tr>
+			<tr>
+				<td>Rafael</td>
+				<td>33</td>
+				<td><input type="checkbox" checked="true"
+						onclick="adicionarListaInativo(nomePessoaId.value, idadePessoaId.value)"></td>
+				<td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
+			</tr>
+		</tbody>
 	</table>
 	<br>
 	<!-- SPAN:-->
@@ -67,57 +77,53 @@
 
 		//ADICIONAR PESSOA
 		var adicionarPessoa = function (nomePessoaId, idadePessoaId) {
-
 			if (idadePessoaId < 18) {
 				var span = document.getElementById("mensagemErro");
-				var pElement = document.createElement("p");
-				var textNode = document.createTextNode(nomePessoaId + ' não pode ser adicionado(a).');
-				pElement.appendChild(textNode);
-				span.appendChild(pElement);
-
+				span.innerText = nomePessoaId + ' não pode ser adicionado(a).';
 				alert(nomePessoaId + " Não pode ser adicionada");
-
-				myFunction();
-			}
-
-			else {
+				adicionarListaInativo(nomePessoaId, idadePessoaId);
+			} else {
 				var span = document.getElementById("mensagemSucesso");
-				var pElement = document.createElement("p");
-				var textNode = document.createTextNode(nomePessoaId + ' foi adicionado(a).');
-				pElement.appendChild(textNode);
-				span.appendChild(pElement);
-
+				span.innerText = nomePessoaId + ' foi adicionado(a).';
 				var pessoaSalva = { nome: nomePessoaId, idade: idadePessoaId, ativo: true };
 				pessoasArray.push(pessoaSalva);
-
-
 				carregarLista();
 			}
-
 		}
 
-		function myFunction(nomePessoaId, idadePessoaId) {
+		//LISTA PESSOAS DESATIVADAS:CHECKBOX
+		function adicionarListaInativo(nomePessoaId, idadePessoaId) {
 			var checkBox = document.getElementById("pessoaAtivaId");
 
 			if (checkBox.checked == false) {
-				alert("checkbox");
 				var ulElement = document.getElementById("elementoUlPessoasInativas");
 				var liElement = document.createElement("li");
 				var textNode = document.createTextNode('Nome: ' + nomePessoaId + ', idade: ' + idadePessoaId);
 				liElement.appendChild(textNode);
 				ulElement.appendChild(liElement);
-
 			}
 		}
+
 		//LIMPAR TABELA				
 		var limparTable = function () {
 			var elementoTable = document.getElementById("tabelaPessoas");
 			var tableTotal = elementoTable.rows.length;
 
-			for (var i = 0; i > tableTotal; i++) {
-				elementoTable.deleteRow(0);
+			for (var i = 0; i < tableTotal; i++) {
+				elementoTable.deleteRow(1);
 			}
-			alert("limpar lista");
+		}
+
+		//CHECKBOX DESATIVADO
+		function remove() {
+			var checkBoxfunction = document.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+			var i = checkBoxfunction.length;
+			while (i--) {
+				if (!checkBoxfunction[i].getElementsByTagName("input")[0].checked) {
+					checkBoxfunction[i].parentNode.removeChild(checkBoxfunction[i]);
+					adicionarListaInativo();
+				}
+			}
 		}
 
 		//REMOVER PESSOA
@@ -128,12 +134,10 @@
 
 		//CARREGAR A TABELA:
 		var carregarLista = function () {
-			limparTable();
 			for (i = 0; i < pessoasArray.length; i++) {
 				var objetoIterado = pessoasArray[i];
 				createElements(tabelaPessoas, objetoIterado);
 			}
-
 		}
 
 		//CRIAR ELEMENTOS:
@@ -146,7 +150,8 @@
 			var createTd3 = createTr.insertCell(3);
 			createTd.innerText = objeto.nome;
 			createTd1.innerText = objeto.idade;
-			createTd2.innerHTML = "<input type='checkbox' checked='true'onclick='myFunction(nomePessoaId.value, idadePessoaId.value)'>";
+			createTd2.innerHTML = "<input type='checkbox' checked='true' onclick='adicionarListaInativo(nomePessoaId.value, idadePessoaId.value)' onclick='remove(this)'>";
+			createTd2.innerHTML = "<input type='checkbox' checked='true' onclick='remove(this)'>";
 			createTd3.innerHTML = "<input type='button' value='Delete' onclick='deleteRow(this)'>";
 		}
 
