@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<!-- 	Bootstrap v2.3.2 -->
+<link rel="stylesheet" media="all" href="assets/bootstrap-2.3.2.min.css" />
+<!-- Plugin styles -->
+<link rel="stylesheet" media="all" href="assets/dynatable.css" />
+
+<!--  jQuery v3.0.0-beta1 -->
+<script src="assets/jquery.js"></script>
+
+<!-- JS Pluging -->
+<script type='text/javascript' src='assets/dynatable.js'></script>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Tables</title>
+</head>
+
+<body>
+
+    <div class="container" width="50%">
+
+        <table id="my-final-table" border=1 class="table table-striped table-bordered" cellspacing="0" width="100">
+            <thead>
+                <th>Nome</th>
+                <th>Status</th>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+    <input type="button" value="Adicionar" onclick="adicionarPessoa()">
+
+    <input type="text" value="0" id="removerPessoaId">
+    <input type="button" value="Remover" onclick="removerPessoa(removerPessoaId.value)">
+    <br>
+    <span id="listaInativos"> Nomes dos inativos:</span>
+
+    <script>
+
+        var listaDePessoas = [
+            { "nome": "Rafael", "ativo": true }
+        ];
+
+        var adicionarPessoa = function () {
+            listaDePessoas.push({ "nome": "Barbara", "ativo": true });
+
+            updateTable();
+        }
+
+        var removerPessoa = function (index) {
+            listaDePessoas.splice(index, 1);
+            updateTable();
+        }
+
+        var listaInativos = function (array) {
+            var ulLista = document.getElementById("listaInativos");
+            alert("Antes do for");
+            for (var i = 0; i < listaDePessoas.length; i++) {
+                alert("Dentro do for");
+                if (listaDePessoas[i].ativo == false) {
+                    var liElement = document.createElement("li");
+                    var textNode = document.createTextNode(' nome: ' + listaDePessoas[i].nome + ', ativo: ' + listaDePessoas[i].ativo);
+                    liElement.appendChild(textNode);
+                    ulLista.appendChild(liElement);
+                }
+            }
+            updateTable();
+        }
+
+        // NAO PRECISA SE PREOCUPAR COM ISSO
+        var imprimirTable = function (array) {
+            var ulLista = document.getElementById("listaInativos");
+            for (var i = 0; i < listaDePessoas.length; i++) {
+                if (listaDePessoas[i].ativo == true) {
+                    listaDePessoas[i].status = "<input type='checkbox' checked>";
+                    listaInativos();
+                } else {
+                    listaDePessoas[i].status = "<input type='checkbox' unchecked>";
+                }
+
+            }
+            $('#my-final-table').dynatable({
+                features: {
+                    paginate: false,
+                    search: false,
+                    recordCount: false
+                }, dataset: {
+                    records: listaDePessoas
+                }
+            });
+        }
+
+        var updateTable = function () {
+            for (var i = 0; i < listaDePessoas.length; i++) {
+                if (listaDePessoas[i].ativo == true) {
+                    listaDePessoas[i].status = "<input type='checkbox' checked>";
+                } else {
+                    listaDePessoas[i].status = "<input type='checkbox' unchecked>";
+                }
+            }
+            $('#my-final-table').data('dynatable').settings.dataset.records = listaDePessoas;
+            $('#my-final-table').data('dynatable').dom.update();
+        }
+
+        imprimirTable(listaDePessoas);
+
+    </script>
+
+</body>
+
+</html>

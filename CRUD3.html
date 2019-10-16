@@ -31,8 +31,8 @@
 	</br>
 	</br>
 	<!-- ADICIONAR/ALTERAR PESSOAS:-->
-	Nome: <input type="text" id="nomePessoaId" value="aaaa" /> </br>
-	Idade: <input type="text" id="idadePessoaId" value="18" /></br>
+	Nome: <input type="text" id="nomePessoaId" /> </br>
+	Idade: <input type="text" id="idadePessoaId" /></br>
 	Ativa: <input type="checkbox" id="pessoaAtivaId" checked="true" /></br>
 	<input type="button" value="Adicionar Pessoa" onclick="adicionarPessoa(nomePessoaId.value, idadePessoaId.value)">
 	</br>
@@ -40,23 +40,22 @@
 	</br>
 
 	<!-- IMPRIMIR LISTA PESSOAS:-->
-	<table border="1" id="tabelaPessoas">
-		<tbody>
-			<tr>
-				<th width="100px" align="center">Nome</th>
-				<th width="100px" align="center">Idade</th>
-				<th width="100px" align="center">Ativo</th>
-				<th width="100px" align="center">Remove</th>
-			</tr>
-			<tr>
-				<td>Rafael</td>
-				<td>33</td>
-				<td><input type="checkbox" checked="true"
-						onclick="adicionarListaInativo(nomePessoaId.value, idadePessoaId.value)"></td>
-				<td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
-			</tr>
-		</tbody>
-	</table>
+	<div id="divTable">
+		<table border="1" id="tabelaPessoas">
+			<tbody>
+				<tr>
+					<th width="100px" align="center">Nome:</th>
+					<th width="100px" align="center">Idade</th>
+					<th width="100px" align="center">Ativo</th>
+					<th width="100px" align="center">Remove</th>
+
+				</tr>
+				<tr>
+
+				</tr>
+			</tbody>
+		</table>
+	</div>
 	<br>
 	<!-- SPAN:-->
 	<span id="mensagemErro" style="color:red"></span>
@@ -78,21 +77,23 @@
 		//ADICIONAR PESSOA
 		var adicionarPessoa = function (nomePessoaId, idadePessoaId) {
 			if (idadePessoaId < 18) {
-				var span = document.getElementById("mensagemErro");
-				span.innerText = nomePessoaId + ' não pode ser adicionado(a).';
-				alert(nomePessoaId + " Não pode ser adicionada");
-				adicionarListaInativo(nomePessoaId, idadePessoaId);
+				if (nomePessoaId == pessoasArray.nome) {
+					var span = document.getElementById("mensagemErro");
+					span.innerText = nomePessoaId + ' não pode ser adicionado(a).';
+					alert(nomePessoaId + " não pode ser adicionado(a).");
+				}
 			} else {
 				var span = document.getElementById("mensagemSucesso");
 				span.innerText = nomePessoaId + ' foi adicionado(a).';
 				var pessoaSalva = { nome: nomePessoaId, idade: idadePessoaId, ativo: true };
 				pessoasArray.push(pessoaSalva);
-				carregarLista();
+				adicionarListaInativoPeloInput(nomePessoaId, idadePessoaId)
 			}
+			carregarLista();
 		}
 
 		//LISTA PESSOAS DESATIVADAS:CHECKBOX
-		function adicionarListaInativo(nomePessoaId, idadePessoaId) {
+		function adicionarListaInativoPeloInput(nomePessoaId, idadePessoaId) {
 			var checkBox = document.getElementById("pessoaAtivaId");
 
 			if (checkBox.checked == false) {
@@ -105,26 +106,56 @@
 		}
 
 		//LIMPAR TABELA				
-		var limparTable = function () {
-			var elementoTable = document.getElementById("tabelaPessoas");
-			var tableTotal = elementoTable.rows.length;
+		var limparTable = function (table) {
+			var divTable = document.getElementById("divTable");
+			divTable.children[0].remove();
+			var table = document.createElement("table");
+			table.id = "tabelaPessoas";
+			table.border = 1;
+			var th = document.createElement("tr");
+			var nomeTd = document.createElement("th");
+			nomeTd.innerText = "Nome";
 
-			for (var i = 0; i < tableTotal; i++) {
-				elementoTable.deleteRow(1);
-			}
+			var nomeTd = document.createElement("th");
+			var idadeTd = document.createElement("th");
+			var ativoTd = document.createElement("th");
+			var removeTd = document.createElement("th");
+
+			nomeTd.innerText = "Nome";
+			nomeTd.width = 100;
+			nomeTd.align = "center";
+
+			idadeTd.innerText = "Idade";
+			idadeTd.width = 100;
+			idadeTd.align = "center";
+
+			ativoTd.innerText = "Ativo";
+			ativoTd.width = 100;
+			ativoTd.align = "center";
+
+			removeTd.innerText = "Remove";
+			removeTd.width = 100;
+			removeTd.align = "center";
+
+			th.appendChild(nomeTd);
+			th.appendChild(idadeTd);
+			th.appendChild(ativoTd);
+			th.appendChild(removeTd);
+			table.appendChild(th);
+			divTable.append(table);
 		}
 
 		//CHECKBOX DESATIVADO
-		function remove() {
-			var checkBoxfunction = document.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
-			var i = checkBoxfunction.length;
-			while (i--) {
-				if (!checkBoxfunction[i].getElementsByTagName("input")[0].checked) {
-					checkBoxfunction[i].parentNode.removeChild(checkBoxfunction[i]);
-					adicionarListaInativo();
+		/*	function remove() {
+				var checkBoxfunction = document.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+				var i = checkBoxfunction.length;
+				while (i--) {
+					if (!checkBoxfunction[i].getElementsByTagName("input")[0].checked) {
+						checkBoxfunction[i].parentNode.removeChild(checkBoxfunction[i]);
+						adicionarListaInativo();
+					}
 				}
-			}
-		}
+			}*/
 
 		//REMOVER PESSOA
 		function deleteRow(deletar) {
@@ -134,15 +165,37 @@
 
 		//CARREGAR A TABELA:
 		var carregarLista = function () {
+			limparTable();
 			for (i = 0; i < pessoasArray.length; i++) {
 				var objetoIterado = pessoasArray[i];
 				createElements(tabelaPessoas, objetoIterado);
 			}
 		}
 
+		//AÇÃO ATIVO:
+		var acaoAtivo = function (checkbox, objeto) {
+			var check = [];
+			var idTable = document.getElementById("tabelaPessoas");
+			var percorrerTable = idTable.children.length;
+
+			alert("checkbox" + checkbox.checked);
+			for (var i = 0; i < percorrerTable; i++) {
+				if (checkbox.checked == false) {
+					alert("checkbox" + checkbox.checked);
+					var ulElement = document.getElementById("elementoUlPessoasInativas");
+					var liElement = document.createElement("li");
+					var textNode = document.createTextNode('Nome: ' + percorrerTable[i].nome + ', idade: ' + percorrerTable[i].idade);
+					liElement.appendChild(textNode);
+					ulElement.appendChild(liElement);
+				} else {
+					check.push(idTable);
+				}
+			}
+		}
+
+
 		//CRIAR ELEMENTOS:
 		var createElements = function (table, objeto) {
-
 			var createTr = table.insertRow(1);
 			var createTd = createTr.insertCell(0);
 			var createTd1 = createTr.insertCell(1);
@@ -150,9 +203,9 @@
 			var createTd3 = createTr.insertCell(3);
 			createTd.innerText = objeto.nome;
 			createTd1.innerText = objeto.idade;
-			createTd2.innerHTML = "<input type='checkbox' checked='true' onclick='adicionarListaInativo(nomePessoaId.value, idadePessoaId.value)' onclick='remove(this)'>";
-			createTd2.innerHTML = "<input type='checkbox' checked='true' onclick='remove(this)'>";
+			createTd2.innerHTML = "<input type='checkbox' checked='true' id='pessoaAtivaIdtable' onchange='acaoAtivo(this, " + JSON.stringify(objeto) + ")'>";
 			createTd3.innerHTML = "<input type='button' value='Delete' onclick='deleteRow(this)'>";
+
 		}
 
 	</script>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<!-- 	Bootstrap v2.3.2 -->
+<link rel="stylesheet" media="all" href="assets/bootstrap-2.3.2.min.css" />
+<!-- Plugin styles -->
+<link rel="stylesheet" media="all" href="assets/dynatable.css" />
+
+<!--  jQuery v3.0.0-beta1 -->
+<script src="assets/jquery.js"></script>
+
+<!-- JS Pluging -->
+<script type='text/javascript' src='assets/dynatable.js'></script>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Carrinho de compras</title>
+</head>
+
+<body>
+
+    <div class="container" width="50%">
+
+        <h3>Itens Loja</h3>
+        <table border=1 class="table table-striped table-bordered" cellspacing="0" width="100">
+            <thead>
+                <th>Nome</th>
+                <th>Valor</th>
+                <th>Ação</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="text-align: left;">Mouse</td>
+                    <td style="text-align: left;">22,35</td>
+                    <td style="text-align: left;"><input type="button" value="Adicionar"
+                            onclick="adicionarItem({'nome': 'Mouse', 'valor': 22.35})"></td>
+                </tr>
+                <tr>
+                    <td style="text-align: left;">Teclado</td>
+                    <td style="text-align: left;">52,42</td>
+                    <td style="text-align: left;"><input type="button" value="Adicionar"
+                            onclick="adicionarItem({'nome': 'Teclado', 'valor': 52.42})"></td>
+                </tr>
+                <tr>
+                    <td style="text-align: left;">Fone de ouvido</td>
+                    <td style="text-align: left;">9,99</td>
+                    <td style="text-align: left;"><input type="button" value="Adicionar"
+                            onclick="adicionarItem({'nome': 'Fone de ouvido', 'valor': 9.99})"></td>
+                </tr>
+            </tbody>
+        </table>
+
+
+        <h3>Seu Carrinho de compras</h3>
+        <table id="my-final-table" border=1 class="table table-striped table-bordered" cellspacing="0" width="100">
+            <thead>
+                <th>Nome</th>
+                <th>Valor</th>
+                <th>Quantidade</th>
+                <th>Diminuir</th>
+                <th>Aumentar</th>
+                <th>Total</th>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+
+    <div class="container">
+        Valor Total da Compra: <b><span id="valorTotalCompra">52,42</span>€</b>
+    </div>
+
+    <script>
+
+        var listaDeItens = [
+            { "nome": "Teclado", "valor": "52,42", "quantidade": 1, "diminuir": "<input type='button' value=' - ' onclick='diminuirItem('teclado')'>", "aumentar": "<input type='button' value=' + ' onclick='aumentarItem('teclado')'>", "total": "52,42" }
+        ];
+
+        var imprimirTable = function (array) {
+            $('#my-final-table').dynatable({
+                features: {
+                    paginate: false,
+                    search: false,
+                    recordCount: false
+                }, dataset: {
+                    records: listaDeItens
+                }
+            });
+        }
+
+        var updateTable = function () {
+            $('#my-final-table').data('dynatable').settings.dataset.records = listaDeItens;
+            $('#my-final-table').data('dynatable').dom.update();
+        }
+
+        imprimirTable(listaDeItens);
+
+    </script>
+
+</body>
+
+</html>
