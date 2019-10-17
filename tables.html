@@ -33,10 +33,11 @@
         </table>
     </div>
 
-    <input type="button" value="Adicionar" onclick="adicionarPessoa()">
-
-    <input type="text" value="0" id="removerPessoaId">
-    <input type="button" value="Remover" onclick="removerPessoa(removerPessoaId.value)">
+    Ativo: <input type="checkbox" value="ativo" id=checked="true" onchange="listaInativos()" /></br>
+    Nome: <input type="text" id="adicionarPessoaId" /></br>
+    <input type="button" value="Adicionar" onclick="adicionarPessoa()" /></br>
+    Remover: <input type="text" value="0" id="removerPessoaId" /></br>
+    <input type="button" value="Remover" onclick="removerPessoa(removerPessoaId.value)" /></br>
     <br>
     <span id="listaInativos"> Nomes dos inativos:</span>
 
@@ -57,7 +58,7 @@
             updateTable();
         }
 
-        var listaInativos = function (array) {
+        var listaInativos = function () {
             var ulLista = document.getElementById("listaInativos");
             alert("Antes do for");
             for (var i = 0; i < listaDePessoas.length; i++) {
@@ -78,7 +79,6 @@
             for (var i = 0; i < listaDePessoas.length; i++) {
                 if (listaDePessoas[i].ativo == true) {
                     listaDePessoas[i].status = "<input type='checkbox' checked>";
-                    listaInativos();
                 } else {
                     listaDePessoas[i].status = "<input type='checkbox' unchecked>";
                 }
