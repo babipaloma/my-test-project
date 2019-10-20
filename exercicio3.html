@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<!-- 	Bootstrap v2.3.2 -->
+<link rel="stylesheet" media="all" href="assets/bootstrap.css" />
+<!-- Plugin styles -->
+<link rel="stylesheet" media="all" href="assets/dynatable.css" />
+
+<!--  jQuery v3.0.0-beta1 -->
+<script src="assets/jquery.js"></script>
+
+<!-- JS Pluging -->
+<script type='text/javascript' src='assets/dynatable.js'></script>
+<script type='text/javascript' src='assets/helper.js'></script>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>exercicio3</title>
+</head>
+
+<body>
+    <ul>
+        <li><b>Não pode adicionar nomes repetidos</b></li>
+        <li><b>Nem nomes vazios</b></li>
+        <li><b>Nem pessoas com idade = 0</b></li>
+    </ul>
+    <div class="container" width="50%">
+
+        <table id="my-final-table" border=1 class="table table-striped table-bordered" cellspacing="0" width="100">
+            <thead>
+                <th>Id</th>
+                <th>Nome</th>
+                <th>Idade</th>
+                <th>Sexo</th>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+
+    <br>
+    <form style="margin-left: 20px;">
+        <div class="form-group">
+            <label>Nome</label>
+            <input type="text" id="nomeId" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Idade</label>
+            <input type="text" id="idadeId" class="form-control">
+        </div>
+        <div class="form-group form-check">
+            <label class="form-check-label">Sexo</label>
+            <select id="selectId">
+                <option value="M">Masculino</option>
+                <option value="F">Feminino</option>
+            </select>
+        </div>
+        <button type="button" onclick="adicionar(nomeId.value, idadeId.value, selectId.selectedOptions[0].value)"
+            class="btn btn-primary">Adicionar</button>
+
+    </form>
+
+    <form style="margin-left: 20px;">
+        <div class="form-group">
+            <label>Nome</label>
+            <input type="text" id="nomeParaProcurarId" class="form-control">
+        </div>
+        <button type="button" onclick="alert(imprimirId(nomeParaProcurarId.value))" class="btn btn-primary">Procurar Id
+            Por Nome</button>
+    </form>
+
+    <form style="margin-left: 20px;">
+        <div class="form-group">
+            <label>Id</label>
+            <input type="text" id="nomeParaRemoverId" class="form-control">
+        </div>
+        <button type="button" value="Remover" onclick="removerPorId(nomeParaRemoverId.value)"
+            class="btn btn-primary">Remover por
+            Id</button>
+    </form>
+
+    <script>
+        var umaCoisa = { tipo: "aa" };
+        var outraCoisa = umaCoisa;
+        outraCoisa.tipo = "bbb";
+
+        var arrayDePessoas = [
+            { "id": 1, "nome": "Rafael", "idade": 33, "sexo": "M" },
+            { "id": 2, "nome": "Barbara", "idade": 27, "sexo": "F" },
+            { "id": 3, "nome": "Heydison", "idade": 27, "sexo": "M" },
+            { "id": 4, "nome": "Rebeca", "idade": 27, "sexo": "F" },
+            { "id": 5, "nome": "Juju", "idade": 3, "sexo": "F" },
+            { "id": 6, "nome": "Bia", "idade": 7, "sexo": "F" },
+            { "id": 7, "nome": "Clarinha", "idade": 7, "sexo": "F" }
+        ];
+        var nome = "a";
+        // criar id ex: objeto.id = array.length + 1;
+        var adicionar = function (nome, idade, sexo) {
+
+            var temAlgumFalso = true;
+            if (idade == 0) {
+                alert("Não pode ser adicionado, idade = 0.");
+                return;
+            }
+
+            for (var i = 0; i < arrayDePessoas.length; i++) {
+                let retornoValidacao = validacao(arrayDePessoas[i].nome, nome, idade, sexo);
+                if (retornoValidacao == true) {
+                    temAlgumFalso = false;
+                }
+            }
+
+            if (temAlgumFalso == false) {
+                console.log("Nao adiciona");
+            } else {
+                let salvarPessoa = { id: arrayDePessoas.length + 1, nome: nome, idade: idade, sexo: sexo };
+                arrayDePessoas.push(salvarPessoa);
+                console.log("adiciona");
+            }
+            atualizarTabela(arrayDePessoas)
+        }
+
+        var validacao = function (objeto, nome, idade, sexo) {
+            if (nome == objeto) {
+                alert("Não pode ser adicionado, nome igual.");
+                return true;
+            }
+
+        }
+
+        var imprimirId = function (nome, idade, sexo, nomeParaProcurarId) {
+
+            // criar uma variavel para guardar a pessoa encontrada
+            for (var i = 0; i < arrayDePessoas; i++) {
+                //Quando o nomeParaProcurarId for igual, arrayDePessoas[i].nome,
+                //então o arrayDePessoas[i].nome = arrayDePessoas[i].id.
+            }
+        }
+
+
+        var removerPorId = function () {
+
+        }
+
+        imprimirTabela(arrayDePessoas);
+
+    </script>
+
+</body>
+
+</html>
