@@ -68,7 +68,7 @@
             <label>Nome</label>
             <input type="text" id="nomeParaProcurarId" class="form-control">
         </div>
-        <button type="button" onclick="alert(imprimirId(nomeParaProcurarId.value))" class="btn btn-primary">Procurar Id
+        <button type="button" onclick="alert(procurarId(nomeParaProcurarId.value))" class="btn btn-primary">Procurar Id
             Por Nome</button>
     </form>
 
@@ -99,10 +99,9 @@
         var nome = "a";
         // criar id ex: objeto.id = array.length + 1;
         var adicionar = function (nome, idade, sexo) {
-
             var temAlgumFalso = true;
-            if (idade == 0) {
-                alert("Não pode ser adicionado, idade = 0.");
+            if (idade == 0 || nome == '') {
+                alert("Não pode ser adicionado, idade ou nome invalidos.");
                 return;
             }
 
@@ -110,6 +109,7 @@
                 let retornoValidacao = validacao(arrayDePessoas[i].nome, nome, idade, sexo);
                 if (retornoValidacao == true) {
                     temAlgumFalso = false;
+
                 }
             }
 
@@ -131,17 +131,26 @@
 
         }
 
-        var imprimirId = function (nome, idade, sexo, nomeParaProcurarId) {
-
-            // criar uma variavel para guardar a pessoa encontrada
-            for (var i = 0; i < arrayDePessoas; i++) {
-                //Quando o nomeParaProcurarId for igual, arrayDePessoas[i].nome,
-                //então o arrayDePessoas[i].nome = arrayDePessoas[i].id.
+        var procurarId = function (nomeParaProcurarId) {
+            for (var i = 0; i < arrayDePessoas.length; i++) {
+                if (nomeParaProcurarId == arrayDePessoas[i].nome) {
+                    console.log("id encontrado ", arrayDePessoas[i].id);
+                    var idReturn = arrayDePessoas[i].id;
+                }
             }
+            return idReturn;
         }
 
 
-        var removerPorId = function () {
+        var removerPorId = function (nomeParaRemoverId) {
+            for (var i = 0; i < arrayDePessoas.length; i++) {
+                if (nomeParaRemoverId == arrayDePessoas[i].id) {
+                    arrayDePessoas.splice(arrayDePessoas[i].id - 1, 1);
+                    atualizarTabela(arrayDePessoas);
+                    console.log("nomepararemoverid ", nomeParaRemoverId, "arrayId", arrayDePessoas[i].id);
+
+                }
+            }
 
         }
 
